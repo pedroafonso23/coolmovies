@@ -7,25 +7,25 @@ import {
   Zoom,
 } from "@mui/material";
 import type { NextPage } from "next";
-import { exampleActions, useAppDispatch, useAppSelector } from "../redux";
-import { styles } from "../styles/styles";
-import { theme } from "../styles/theme";
+import { exampleActions, useAppDispatch, useAppSelector } from "../../redux";
+import { styles } from "../../styles/styles";
+import { theme } from "../../styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
-const HomePage: NextPage = () => {
+const ReviewsPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const exampleState = useAppSelector((state) => state.example);
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <ThemeProvider theme={theme}>
       <div css={styles.root}>
         <Paper elevation={3} css={styles.navBar}>
-          <Button color={"secondary"}>
+          <Button color={"neutral"} onClick={() => router.push('/')}>
             {"EcoPortal"}
           </Button>
-          <Button color={"neutral"} onClick={() => router.push("/reviews")}>
+          <Button color={"secondary"}>
             {"Reviews"}
           </Button>
           <Button color={"neutral"} onClick={() => router.push('/applicant')}>
@@ -35,14 +35,12 @@ const HomePage: NextPage = () => {
 
         <div css={styles.body}>
           <Typography variant={"h1"} css={styles.heading}>
-            {"EcoPortal Coolmovies Test"}
+            {"REVIEWS PAGE"}
           </Typography>
           <Typography variant={"subtitle1"} css={styles.subtitle}>
-            {`Thank you for taking the time to take our test. We really appreciate it. 
-            All the information on what is required can be found in the README at the root of this repo. 
-            Please dont spend ages on this and just get through as much of it as you can. 
-            Good luck! :) `}
+            {`Reviews`}
           </Typography>
+
           <div css={styles.mainControls}>
             <Tooltip
               title={`Side Effect Count from Epic (Gets run on odd values): ${exampleState.sideEffectCount}`}
@@ -83,4 +81,4 @@ const HomePage: NextPage = () => {
   );
 };
 
-export default HomePage;
+export default ReviewsPage;
