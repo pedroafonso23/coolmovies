@@ -7,15 +7,16 @@ import {
   Zoom,
 } from "@mui/material";
 import type { NextPage } from "next";
-import { exampleActions, useAppDispatch, useAppSelector } from "../../redux";
+import { coolmoviesActions, useAppDispatch, useAppSelector } from "../../redux";
 import { styles } from "../../styles/styles";
 import { theme } from "../../styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
-const ReviewsPage: NextPage = () => {
+const CoolmoviesPage: NextPage = () => {
   const dispatch = useAppDispatch();
-  const exampleState = useAppSelector((state) => state.example);
+  const coolmoviesState = useAppSelector((state) => state.coolmovies);
   const router = useRouter()
 
   return (
@@ -35,50 +36,65 @@ const ReviewsPage: NextPage = () => {
 
         <div css={styles.body}>
           <Typography variant={"h1"} css={styles.heading}>
-            {"REVIEWS PAGE"}
+            {"COOLMOVIES PAGE"}
           </Typography>
           <Typography variant={"subtitle1"} css={styles.subtitle}>
-            {`Reviews`}
+            {`Coolmovies`}
           </Typography>
 
           <div css={styles.mainControls}>
             <Tooltip
-              title={`Side Effect Count from Epic (Gets run on odd values): ${exampleState.sideEffectCount}`}
+              title={`Side Effect Count from Epic (Gets run on odd values): ${coolmoviesState.sideEffectCount}`}
               arrow
             >
               <Button
                 variant={"contained"}
-                onClick={() => dispatch(exampleActions.increment())}
+                onClick={() => dispatch(coolmoviesActions.increment())}
               >
-                {`Redux Increment: ${exampleState.value}`}
+                {`Redux Increment: ${coolmoviesState.value}`}
               </Button>
             </Tooltip>
             <Button
               variant={"outlined"}
               onClick={() =>
-                dispatch(
-                  exampleState.fetchData
-                    ? exampleActions.clearData()
-                    : exampleActions.fetch()
-                )
+                {
+                  dispatch(
+                    coolmoviesState.allMoviesData
+                      ? coolmoviesActions.clearData()
+                      : coolmoviesActions.fetchAllMovies()
+                  )
+                }
               }
             >
-              {exampleState.fetchData ? "Hide some data" : "Fetch some data"}
+              {coolmoviesState.allMoviesData ? "Hide Movies" : "Fetch Movies"}
+            </Button>
+            <Button
+              variant={"outlined"}
+              onClick={() => 
+                {
+                  dispatch(coolmoviesActions.fetchReviewsByMovieId('70351289-8756-4101-bf9a-37fc8c7a82cd'))
+                }
+              }
+            >
+              {"Get movie reviews"}
             </Button>
           </div>
 
-          <Zoom in={Boolean(exampleState.fetchData)} unmountOnExit mountOnEnter>
-            <TextField
-              css={styles.dataInput}
-              multiline
-              label={"Some Data"}
-              defaultValue={JSON.stringify(exampleState.fetchData)}
-            />
-          </Zoom>
+          <div css={styles.movieCovers}>
+            {coolmoviesState.allMoviesData?.allMovies?.nodes?.map(({ imgUrl }) => {
+              return <Image
+                key={imgUrl}
+                src= {imgUrl}
+                alt="Movie cover image"
+                width={200}
+                height={300}
+              />
+            })}
+          </div>
         </div>
       </div>
     </ThemeProvider>
   );
 };
 
-export default ReviewsPage;
+export default CoolmoviesPage;

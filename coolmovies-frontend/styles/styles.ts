@@ -41,6 +41,12 @@ export const styles = {
       alignItems: 'center',
       button: { marginRight: 16 },
     }),
+    movieCovers: css({
+      display: 'flex',
+      alignItems: 'center',
+      margin: '26px',
+      gap: '12px',
+    }),
     dataInput: css({
       alignSelf: 'stretch',
       margin: '32px 0',
