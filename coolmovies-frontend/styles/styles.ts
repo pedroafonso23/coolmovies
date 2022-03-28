@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { color } from '@mui/system';
 import { theme } from './theme'
 
 export const styles = {
@@ -8,6 +9,7 @@ export const styles = {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      background: theme.palette.neutral.main,
     }),
     navBar: css({
       background: theme.palette.primary.main,
@@ -28,13 +30,17 @@ export const styles = {
       flexDirection: 'column',
       alignItems: 'center',
     }),
-    heading: css({ marginTop: 16, fontSize: '2.75rem', textAlign: 'center' }),
+    heading: css({ 
+      marginTop: 16, 
+      fontSize: '2.75rem', 
+      textAlign: 'center' 
+    }),
     subtitle: css({
       fontWeight: 300,
       textAlign: 'center',
       maxWidth: 600,
-      margin: '24px 0',
-      color: 'rgba(0, 0, 0, 0.6)',
+      // margin: '24px 0',
+      color: theme.palette.primary.main,//'rgba(0, 0, 0, 0.6)',
     }),
     mainControls: css({
       display: 'flex',
@@ -45,7 +51,16 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       margin: '26px',
-      gap: '12px',
+      gap: '24px',
+    }),
+    coverImage: css({
+      transition: 'transform .2s',
+      '&:hover': {
+        transform: 'scale(1.1)',
+      },
+      '&:focus': {
+        transform: 'scale(1.14)',
+      }
     }),
     dataInput: css({
       alignSelf: 'stretch',

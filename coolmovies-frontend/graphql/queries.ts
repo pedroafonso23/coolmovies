@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const allMoviesQuery = gql`
   query AllMovies {
-    allMovies {
+    allMovies(first: 10) {
       nodes {
         id
         imgUrl

@@ -8,16 +8,16 @@ export type EpicDependencies = {
   client: ApolloClient<NormalizedCacheObject>;
 };
 
+export type MovieData = {
+  id: string,
+  imgUrl: string,
+  title: string,
+  releaseDate: string,
+}
+
 export type AllMoviesData = {
   allMovies: {
-    nodes: [
-      {
-        id: string,
-        imgUrl: string,
-        title: string,
-        releaseDate: string,
-      }
-    ]
+    nodes: [MovieData]
   }
 }
 

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AllMoviesData, ReviewsData } from '../../types';
+import { AllMoviesData, MovieData, ReviewsData } from '../../types';
 
 interface CoolmoviesState {
   value: number;
   sideEffectCount: number;
   allMoviesData?: AllMoviesData;
+  selectedMovieData?: MovieData;
   reviewsForSelectedMovie?: ReviewsData;
 }
 
@@ -18,26 +19,45 @@ export const slice = createSlice({
   name: 'coolmovies',
   reducers: {
     fetchAllMovies: () => {},
+
     fetchReviewsByMovieId: (state, action: PayloadAction<string>) => {},
-    clearData: (state) => {
+
+    clearAll: (state) => {
+      console.log("CLEAR ALL")
       state.allMoviesData = undefined;
       state.reviewsForSelectedMovie = undefined;
+      state.selectedMovieData = undefined;
+      state.reviewsForSelectedMovie = undefined;
     },
+
+    clearSelectedMovieData: (state) => {
+      state.selectedMovieData = undefined;
+    },
+
     loaded: (state, action: PayloadAction<{ data: AllMoviesData | ReviewsData }>) => {
-      if (<AllMoviesData>action.payload.data != undefined) {
+      if ((action.payload.data as AllMoviesData).allMovies) {
         state.allMoviesData = action.payload.data as AllMoviesData;
-      } else if (<ReviewsData>action.payload.data != undefined) {
+        console.log("LOADED MOVIES", action.payload.data)
+      } else if ((action.payload.data as ReviewsData).allMovieReviews) {
         state.reviewsForSelectedMovie = action.payload.data as ReviewsData 
+        console.log("LOADED REVIEWS", action.payload.data)
       }
-      console.log(action.payload.data)
     },
+
     loadError: (state) => {
       state.allMoviesData = undefined;
-      console.log('Error fetching AllMovies')
+      state.reviewsForSelectedMovie = undefined;
+      console.log('Error fetching data');
     },
+
+    setSelectedMovie: (state, action: PayloadAction<MovieData>) => {
+      state.selectedMovieData = action.payload
+    },
+
     increment: (state) => {
       state.value += 1;
     },
+
     epicSideEffect: (state) => {
       state.sideEffectCount += 1;
     },
