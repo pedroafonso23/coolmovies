@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AllMoviesData, MovieData, ReviewsData } from '../../types';
+import { AllMoviesData, MovieData, AllReviewsForMovieData, UserData } from '../../types';
 
 interface CoolmoviesState {
   value: number;
   sideEffectCount: number;
   allMoviesData?: AllMoviesData;
   selectedMovieData?: MovieData;
-  reviewsForSelectedMovie?: ReviewsData;
+  reviewsForSelectedMovie?: AllReviewsForMovieData;
+  toggleNewReview: boolean;
+  loggedUser?: UserData;
 }
 
 const initialState: CoolmoviesState = {
   value: 0,
   sideEffectCount: 0,
+  toggleNewReview: false,
 };
 
 export const slice = createSlice({
@@ -22,25 +25,33 @@ export const slice = createSlice({
 
     fetchReviewsByMovieId: (state, action: PayloadAction<string>) => {},
 
+    fetchLoggedUser: () => {},
+
     clearAll: (state) => {
-      console.log("CLEAR ALL")
+      console.log("Clear all states")
       state.allMoviesData = undefined;
       state.reviewsForSelectedMovie = undefined;
       state.selectedMovieData = undefined;
       state.reviewsForSelectedMovie = undefined;
+      state.loggedUser = undefined;
     },
 
     clearSelectedMovieData: (state) => {
       state.selectedMovieData = undefined;
     },
 
-    loaded: (state, action: PayloadAction<{ data: AllMoviesData | ReviewsData }>) => {
-      if ((action.payload.data as AllMoviesData).allMovies) {
-        state.allMoviesData = action.payload.data as AllMoviesData;
-        console.log("LOADED MOVIES", action.payload.data)
-      } else if ((action.payload.data as ReviewsData).allMovieReviews) {
-        state.reviewsForSelectedMovie = action.payload.data as ReviewsData 
-        console.log("LOADED REVIEWS", action.payload.data)
+    loaded: (state, action: PayloadAction<{ data: AllMoviesData | AllReviewsForMovieData | UserData }>) => {
+      const data = action.payload.data
+
+      if ((data as AllMoviesData).allMovies) {
+        state.allMoviesData = data as AllMoviesData;
+        console.log("Loaded movies", data)
+      } else if ((data as AllReviewsForMovieData).allMovieReviews) {
+        state.reviewsForSelectedMovie = data as AllReviewsForMovieData 
+        console.log("Loaded reviews", data)
+      } else if ((data as UserData).currentUser) {
+        state.loggedUser = data as UserData
+        console.log("Loaded current user", data)
       }
     },
 
@@ -52,6 +63,10 @@ export const slice = createSlice({
 
     setSelectedMovie: (state, action: PayloadAction<MovieData>) => {
       state.selectedMovieData = action.payload
+    },
+
+    toggleNewReview: (state, action: PayloadAction<boolean>) => {
+      state.toggleNewReview = action.payload
     },
 
     increment: (state) => {

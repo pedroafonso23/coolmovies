@@ -6,14 +6,17 @@ export const theme = createTheme({
   },
   palette: {
     primary: {
-        main: '#7B1E99', // Violet
-        darker: '#290A33',
+      main: '#002F3D',
+        // main: '#7B1E99', // Violet
+        // darker: '#290A33',
     },
     secondary: {
-        main: '#41D3BD' // Turquoise
+      main: '#FFE640',
+        // main: '#41D3BD' // Turquoise
     },
     neutral: {
-        main: '#FFFFF2' // Ivory
+      main: '#FFFFF2', // Ivory
+      dark: '#ffffd6'
     },
   },
 });

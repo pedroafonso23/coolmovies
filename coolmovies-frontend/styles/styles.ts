@@ -25,7 +25,7 @@ export const styles = {
     }),
     body: css({
       alignSelf: 'stretch',
-      padding: 32,
+      // padding: 2,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -38,7 +38,7 @@ export const styles = {
     subtitle: css({
       fontWeight: 300,
       textAlign: 'center',
-      maxWidth: 600,
+      // maxWidth: 600,
       // margin: '24px 0',
       color: theme.palette.primary.main,//'rgba(0, 0, 0, 0.6)',
     }),

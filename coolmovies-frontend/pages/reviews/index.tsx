@@ -6,6 +6,8 @@ import {
   Typography,
   Zoom,
   CircularProgress,
+  Stack,
+  Box,
 } from "@mui/material";
 import type { NextPage } from "next";
 import { coolmoviesActions, useAppDispatch, useAppSelector } from "../../redux";
@@ -15,12 +17,15 @@ import { ThemeProvider } from "@mui/material/styles";
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState, useEffect } from "react";
-import Review from '../../components/review/Review'
+import { Review } from '../../components/review/Review'
+import { ReviewNew } from "../../components/review/ReviewNew";
 
 const CoolmoviesPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const coolmoviesState = useAppSelector((state) => state.coolmovies);
   const router = useRouter()
+
+  const [newReview, setNewReview] = useState(false);
 
   useEffect(() => {
     dispatch(coolmoviesActions.clearSelectedMovieData())
@@ -44,8 +49,8 @@ const CoolmoviesPage: NextPage = () => {
         </Paper>
 
         <div css={styles.body}>
-          <Typography variant={"h1"} css={styles.heading}>
-            {"Reviews"}
+          <Typography variant={"h4"} css={styles.heading} color={'primary.main'}>
+            {"User Reviews"}
           </Typography>
 
           <div css={styles.movieCovers}>
@@ -57,11 +62,16 @@ const CoolmoviesPage: NextPage = () => {
                   blurDataURL={movieData.imgUrl}
                   src={movieData.imgUrl}
                   alt={movieData.title + " cover"}
-                  width={160}
-                  height={160 * 1.5}
+                  width={180}
+                  height={180 * 1.5}
 
                   onClick={() => {
                     console.log("Selected movie: ", movieData.title)
+
+                    if (coolmoviesState.selectedMovieData?.id != movieData.id) {
+                      dispatch(coolmoviesActions.toggleNewReview(false))
+                    }
+
                     dispatch(coolmoviesActions.setSelectedMovie(movieData))
                     dispatch(coolmoviesActions.fetchReviewsByMovieId(movieData.id))
                   }}
@@ -71,34 +81,48 @@ const CoolmoviesPage: NextPage = () => {
           </div>
 
           {coolmoviesState.selectedMovieData &&
-            <div>
-              <Typography variant={"subtitle1"} css={styles.subtitle} >
-                {"Title: " + coolmoviesState.selectedMovieData.title} 
+          <div>
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Typography variant={'h6'} css={styles.subtitle} >
+                {coolmoviesState.selectedMovieData.title} 
               </Typography>
-              <Typography variant={"subtitle1"} css={styles.subtitle} >
+              <Typography variant={'subtitle2'} css={styles.subtitle} >
                 {"Release date: " + coolmoviesState.selectedMovieData.releaseDate} 
               </Typography>
+            </Box>
 
-              <Button
-                variant={"outlined"}
-                onClick={() =>
-                  console.log("New review")
+              
+              <Box sx={{margin: 1, display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
+                {
+                  !coolmoviesState.toggleNewReview && <Button 
+                    variant={"outlined"}
+                    onClick={() => {
+                        console.log("New review")
+                        dispatch(coolmoviesActions.toggleNewReview(true))
+                      }
+                    }
+                  >
+                    {"Review this title"}
+                  </Button>
                 }
-              >
-                {"New Review"}
-              </Button>
+              </Box>
+              
 
-              {
-                coolmoviesState.reviewsForSelectedMovie &&
-                coolmoviesState.reviewsForSelectedMovie?.allMovieReviews?.nodes.map((reviewData) => {
-                  return <div key={reviewData.id}>
-                    {/* <Typography variant={"subtitle1"} css={styles.subtitle} >
-                      {reviewData.title} 
-                    </Typography> */}
-                    <Review />
-                  </div>
-                })
-              }
+              <Stack spacing={2} >
+                { coolmoviesState.toggleNewReview && <ReviewNew /> }
+
+                {
+                  coolmoviesState.reviewsForSelectedMovie &&
+                  coolmoviesState.reviewsForSelectedMovie?.allMovieReviews?.nodes.map((reviewData) => {
+                    return <div key={reviewData.id}>
+                        <Review id={reviewData.id} title={reviewData.title} rating={reviewData.rating} body={reviewData.body} userByUserReviewerId={{
+                          id: reviewData.userByUserReviewerId.id,
+                          name: reviewData.userByUserReviewerId.name
+                        }}  />
+                    </div>
+                  })
+                }
+              </Stack>
 
             </div>
           }

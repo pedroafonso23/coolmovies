@@ -21,19 +21,26 @@ export type AllMoviesData = {
   }
 }
 
-export type ReviewsData = {
+export type ReviewData = {
+  id: string,
+  title: string,
+  rating: number,
+  body: string,
+  userByUserReviewerId: {
+    id: string,
+    name: string,
+  }
+}
+
+export type AllReviewsForMovieData = {
   allMovieReviews: {
-    nodes: [
-      {
-        id: string,
-        title: string,
-        rating: number,
-        releaseDate: string,
-        userByUserReviewerId: {
-          id: string,
-          name: string,
-        }
-      }
-    ]
+    nodes: [ReviewData],
+  }
+}
+
+export type UserData = {
+  currentUser: {
+    id: string,
+    name: string,
   }
 }
