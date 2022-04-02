@@ -1,4 +1,4 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 
 export type CreateStoreOptions = {
   epicDependencies?: EpicDependencies;
@@ -9,52 +9,52 @@ export type EpicDependencies = {
 };
 
 export type MovieData = {
-  id: string,
-  imgUrl: string,
-  title: string,
-  releaseDate: string,
-}
+  id: string;
+  imgUrl: string;
+  title: string;
+  releaseDate: string;
+};
 
 export type AllMoviesData = {
   allMovies: {
-    nodes: [MovieData]
-  }
-}
+    nodes: [MovieData];
+  };
+};
 
 export type ReviewData = {
-  id?: string | undefined,
-  title: string,
-  rating: number,
-  body: string,
+  id?: string | undefined;
+  title: string;
+  rating: number;
+  body: string;
   userByUserReviewerId: {
-    id: string,
-    name?: string | undefined,
-  },
-  movieId: string,
-  nodeId?: string | undefined,
-}
+    id: string;
+    name?: string | undefined;
+  };
+  movieId: string;
+  nodeId?: string | undefined;
+};
 
 export type AllReviewsForMovieData = {
   allMovieReviews: {
-    nodes: [ReviewData],
-  }
-}
+    nodes: [ReviewData];
+  };
+};
 
 export type UserData = {
   currentUser: {
-    id: string,
-    name: string,
-  }
-}
+    id: string;
+    name: string;
+  };
+};
 
 export type CreateReview = {
   createMovieReview: {
-    movieReview: ReviewData
-  }
-}
+    movieReview: ReviewData;
+  };
+};
 
 export type UpdateReview = {
   updateMovieReview: {
-    movieReview: ReviewData
-  }
-}
+    movieReview: ReviewData;
+  };
+};

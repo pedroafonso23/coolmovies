@@ -1,6 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { useAppDispatch } from '../../store';
-import { AllMoviesData, MovieData, AllReviewsForMovieData, UserData, ReviewData, CreateReview, UpdateReview } from '../../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  AllMoviesData,
+  MovieData,
+  AllReviewsForMovieData,
+  UserData,
+  ReviewData,
+  CreateReview,
+  UpdateReview,
+} from "../../types";
 
 interface CoolmoviesState {
   value: number;
@@ -21,7 +28,7 @@ const initialState: CoolmoviesState = {
 
 export const slice = createSlice({
   initialState,
-  name: 'coolmovies',
+  name: "coolmovies",
   reducers: {
     fetchAllMovies: () => {},
 
@@ -36,7 +43,7 @@ export const slice = createSlice({
     deleteMovieReview: (state, action: PayloadAction<string>) => {},
 
     clearAll: (state) => {
-      console.log("Clear all states")
+      console.log("Clear all states");
       state.allMoviesData = undefined;
       state.reviewsForSelectedMovie = [];
       state.selectedMovieData = undefined;
@@ -47,45 +54,63 @@ export const slice = createSlice({
       state.selectedMovieData = undefined;
     },
 
-    loaded: (state, action: PayloadAction<{ data: AllMoviesData | AllReviewsForMovieData | UserData | CreateReview | UpdateReview }>) => {
-      const data = action.payload.data
-      console.log("Loaded: ", data)
+    loaded: (
+      state,
+      action: PayloadAction<{
+        data:
+          | AllMoviesData
+          | AllReviewsForMovieData
+          | UserData
+          | CreateReview
+          | UpdateReview;
+      }>
+    ) => {
+      const data = action.payload.data;
+      console.log("Loaded: ", data);
 
       if ((data as AllMoviesData).allMovies) {
         state.allMoviesData = data as AllMoviesData;
       } else if ((data as AllReviewsForMovieData).allMovieReviews) {
-        state.reviewsForSelectedMovie = (data as AllReviewsForMovieData).allMovieReviews.nodes
+        state.reviewsForSelectedMovie = (
+          data as AllReviewsForMovieData
+        ).allMovieReviews.nodes;
       } else if ((data as UserData).currentUser) {
-        state.loggedUser = data as UserData
+        state.loggedUser = data as UserData;
       } else if ((data as CreateReview)?.createMovieReview?.movieReview) {
-        state.reviewsForSelectedMovie.unshift((data as CreateReview).createMovieReview.movieReview)
+        state.reviewsForSelectedMovie.unshift(
+          (data as CreateReview).createMovieReview.movieReview
+        );
       } else if ((data as UpdateReview)?.updateMovieReview?.movieReview) {
-        state.reviewsForSelectedMovie.unshift((data as UpdateReview).updateMovieReview.movieReview)
+        state.reviewsForSelectedMovie.unshift(
+          (data as UpdateReview).updateMovieReview.movieReview
+        );
       }
     },
 
     loadError: (state) => {
-      // state.allMoviesData = undefined;
-      // state.reviewsForSelectedMovie = undefined;
-      console.log('Error fetching data');
+      console.log("Error fetching data");
     },
 
     setSelectedMovie: (state, action: PayloadAction<MovieData>) => {
-      state.selectedMovieData = action.payload
+      state.selectedMovieData = action.payload;
     },
 
     addReview: (state, action: PayloadAction<ReviewData>) => {
-      state.reviewsForSelectedMovie.unshift(action.payload)
+      state.reviewsForSelectedMovie.unshift(action.payload);
     },
 
     removeReview: (state, action: PayloadAction<string>) => {
-      const reviewList = JSON.parse(JSON.stringify(state.reviewsForSelectedMovie)) as ReviewData[]
-      const indexToRemove = reviewList.findIndex(e => e.nodeId === action.payload)
-      state.reviewsForSelectedMovie.splice(indexToRemove, 1)
+      const reviewList = JSON.parse(
+        JSON.stringify(state.reviewsForSelectedMovie)
+      ) as ReviewData[];
+      const indexToRemove = reviewList.findIndex(
+        (e) => e.nodeId === action.payload
+      );
+      state.reviewsForSelectedMovie.splice(indexToRemove, 1);
     },
 
     toggleNewReview: (state, action: PayloadAction<boolean>) => {
-      state.toggleNewReview = action.payload
+      state.toggleNewReview = action.payload;
     },
 
     increment: (state) => {

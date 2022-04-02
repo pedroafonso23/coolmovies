@@ -1,30 +1,24 @@
-import {
-  Button,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import { styles } from "../../styles/styles";
 import { theme } from "../../styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 const ApplicantPage: NextPage = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <ThemeProvider theme={theme}>
       <div css={styles.root}>
         <Paper elevation={3} css={styles.navBar}>
-          <Button color={"neutral"} onClick={() => router.push('/')}>
+          <Button color={"neutral"} onClick={() => router.push("/")}>
             {"EcoPortal"}
           </Button>
-          <Button color={"neutral"} onClick={() => router.push('/reviews')}>
+          <Button color={"neutral"} onClick={() => router.push("/reviews")}>
             {"Reviews"}
           </Button>
-          <Button color={"secondary"}>
-            {"Applicant"}
-          </Button>
+          <Button color={"secondary"}>{"Applicant"}</Button>
         </Paper>
 
         <div css={styles.body}>

@@ -1,16 +1,16 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const allMoviesQuery = gql`
-{
-  allMovies(first: 10) {
-    nodes {
-      id
-      imgUrl
-      title
-      releaseDate
+  {
+    allMovies(first: 10) {
+      nodes {
+        id
+        imgUrl
+        title
+        releaseDate
+      }
     }
   }
-}
 `;
 
 export const reviewsByMovieIdQuery = (movieId: string) => gql`
@@ -32,13 +32,13 @@ export const reviewsByMovieIdQuery = (movieId: string) => gql`
     totalCount
   }
 }
-`
+`;
 
 export const loggedUserQuery = gql`
-{
-  currentUser {
-    id
-    name
+  {
+    currentUser {
+      id
+      name
+    }
   }
-}
-`
+`;

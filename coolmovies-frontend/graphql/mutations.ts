@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import { ReviewData } from '../redux/types';
+import { gql } from "@apollo/client";
+import { ReviewData } from "../redux/types";
 
 export const createMovieReviewMutation = (reviewData: ReviewData) => gql`
 mutation {
