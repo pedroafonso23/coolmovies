@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { IconButton, TextareaAutosize, TextField, Grid, Box, Typography, fabClasses } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
 import CheckIcon from '@mui/icons-material/Check';
 import { useDispatch, useSelector } from 'react-redux';
 import { styles } from '../../styles/styles';
@@ -14,10 +14,10 @@ export const ReviewNew: FC = () => {
     const dispatch = useAppDispatch();
     const coolmoviesState = useAppSelector((state) => state.coolmovies);
 
-    useEffect(() => {
-        dispatch(coolmoviesActions.fetchLoggedUser())
-        console.log("Fetching logged user")
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(coolmoviesActions.fetchLoggedUser())
+    //     console.log("Fetching logged user")
+    // }, [dispatch])
 
     const [star2, setStar2] = useState(false);
     const [star3, setStar3] = useState(false);
@@ -105,7 +105,6 @@ export const ReviewNew: FC = () => {
                         const userName = coolmoviesState.loggedUser ? coolmoviesState.loggedUser?.currentUser.name : ""
                         console.log("UserName: ", userName)
 
-
                         const reviewData: ReviewData = {
                             id: uuid(),
                             title,
@@ -118,16 +117,18 @@ export const ReviewNew: FC = () => {
                             movieId,
                         }
                         console.log("All reivew data: ", reviewData)
-                        dispatch(coolmoviesActions.createMovieReview(reviewData))
-                        dispatch(coolmoviesActions.addReview(reviewData))
-                        dispatch(coolmoviesActions.toggleNewReview(false))
+
+                        // dispatch(coolmoviesActions.addReview(reviewData))
+                        dispatch(coolmoviesActions.toggleNewReview(false)) &&
+                        dispatch(coolmoviesActions.createMovieReview(reviewData)) //&&
+                        // dispatch(coolmoviesActions.fetchReviewsByMovieId(reviewData.movieId))
                     }}>
                         <CheckIcon sx={{ color: green[500], marginRight: 0.8 }} />
                     </IconButton>
                     <IconButton onClick={() => {
                         dispatch(coolmoviesActions.toggleNewReview(false))
                     }} >
-                        <DeleteIcon sx={{ color: red[400] }} />
+                        <CancelIcon sx={{ color: red[400] }} />
                     </IconButton>
                 </div>
             </Box>

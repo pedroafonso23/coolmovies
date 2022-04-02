@@ -7,6 +7,8 @@ import {
     reviewsByMovieIdAsyncEpic, 
     loggedUserAsyncEpic,
     createMovieReviewAsyncEpic,
+    updateMovieReviewAsyncEpic,
+    deleteMovieReviewAsyncEpic,
 } from './epics';
 
 export const coolmoviesEpics = combineEpics(
@@ -15,4 +17,6 @@ export const coolmoviesEpics = combineEpics(
     reviewsByMovieIdAsyncEpic, 
     loggedUserAsyncEpic,
     createMovieReviewAsyncEpic,
+    updateMovieReviewAsyncEpic,
+    deleteMovieReviewAsyncEpic,
 );

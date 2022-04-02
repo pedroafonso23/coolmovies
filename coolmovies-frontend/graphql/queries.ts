@@ -27,6 +27,7 @@ export const reviewsByMovieIdQuery = (movieId: string) => gql`
         name
       }
       body
+      nodeId
     }
     totalCount
   }

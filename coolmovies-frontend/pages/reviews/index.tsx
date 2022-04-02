@@ -30,7 +30,8 @@ const CoolmoviesPage: NextPage = () => {
   useEffect(() => {
     dispatch(coolmoviesActions.clearSelectedMovieData())
     dispatch(coolmoviesActions.fetchAllMovies())
-    console.log("Fetching movies")
+    dispatch(coolmoviesActions.fetchLoggedUser())
+    console.log("Fetching movies and logged user")
   }, [dispatch])
 
   return (
@@ -113,12 +114,9 @@ const CoolmoviesPage: NextPage = () => {
 
                 {
                   coolmoviesState.reviewsForSelectedMovie &&
-                  // useEffect(() => {
-
-                  // }, [])
                   coolmoviesState.reviewsForSelectedMovie?.map((reviewData) => {
                     return <div key={reviewData.id}>
-                        <Review id={reviewData.id} title={reviewData.title} rating={reviewData.rating} body={reviewData.body} userByUserReviewerId={{
+                        <Review id={reviewData.id} nodeId={reviewData.nodeId} title={reviewData.title} rating={reviewData.rating} body={reviewData.body} userByUserReviewerId={{
                           id: reviewData.userByUserReviewerId.id,
                           name: reviewData.userByUserReviewerId.name
                         }} movieId={reviewData.movieId} />

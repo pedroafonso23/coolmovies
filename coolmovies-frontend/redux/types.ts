@@ -31,6 +31,7 @@ export type ReviewData = {
     name?: string | undefined,
   },
   movieId: string,
+  nodeId?: string | undefined,
 }
 
 export type AllReviewsForMovieData = {
@@ -43,5 +44,17 @@ export type UserData = {
   currentUser: {
     id: string,
     name: string,
+  }
+}
+
+export type CreateReview = {
+  createMovieReview: {
+    movieReview: ReviewData
+  }
+}
+
+export type UpdateReview = {
+  updateMovieReview: {
+    movieReview: ReviewData
   }
 }
