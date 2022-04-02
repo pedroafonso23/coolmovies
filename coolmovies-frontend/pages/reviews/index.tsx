@@ -30,7 +30,7 @@ const CoolmoviesPage: NextPage = () => {
   useEffect(() => {
     dispatch(coolmoviesActions.clearSelectedMovieData())
     dispatch(coolmoviesActions.fetchAllMovies())
-    console.log("INITIAL DISPATCH")
+    console.log("Fetching movies")
   }, [dispatch])
 
   return (
@@ -71,7 +71,7 @@ const CoolmoviesPage: NextPage = () => {
                     if (coolmoviesState.selectedMovieData?.id != movieData.id) {
                       dispatch(coolmoviesActions.toggleNewReview(false))
                     }
-
+                    
                     dispatch(coolmoviesActions.setSelectedMovie(movieData))
                     dispatch(coolmoviesActions.fetchReviewsByMovieId(movieData.id))
                   }}
@@ -113,12 +113,15 @@ const CoolmoviesPage: NextPage = () => {
 
                 {
                   coolmoviesState.reviewsForSelectedMovie &&
-                  coolmoviesState.reviewsForSelectedMovie?.allMovieReviews?.nodes.map((reviewData) => {
+                  // useEffect(() => {
+
+                  // }, [])
+                  coolmoviesState.reviewsForSelectedMovie?.map((reviewData) => {
                     return <div key={reviewData.id}>
                         <Review id={reviewData.id} title={reviewData.title} rating={reviewData.rating} body={reviewData.body} userByUserReviewerId={{
                           id: reviewData.userByUserReviewerId.id,
                           name: reviewData.userByUserReviewerId.name
-                        }}  />
+                        }} movieId={reviewData.movieId} />
                     </div>
                   })
                 }

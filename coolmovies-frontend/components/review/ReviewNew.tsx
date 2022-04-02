@@ -8,6 +8,7 @@ import { styles } from '../../styles/styles';
 import { ReviewData } from '../../redux/types';
 import { green, yellow, red } from '@mui/material/colors';
 import { coolmoviesActions, useAppDispatch, useAppSelector } from "../../redux";
+import { v4 as uuid } from 'uuid';
 
 export const ReviewNew: FC = () => {
     const dispatch = useAppDispatch();
@@ -15,13 +16,15 @@ export const ReviewNew: FC = () => {
 
     useEffect(() => {
         dispatch(coolmoviesActions.fetchLoggedUser())
-        console.log("FETCHING LOGGED USER")
+        console.log("Fetching logged user")
     }, [dispatch])
 
     const [star2, setStar2] = useState(false);
     const [star3, setStar3] = useState(false);
     const [star4, setStar4] = useState(false);
     const [star5, setStar5] = useState(false);
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
 
     return (
         <Box sx={{
@@ -60,35 +63,72 @@ export const ReviewNew: FC = () => {
                 </IconButton>
             </Grid>
 
-            <TextField 
+            <TextField
                 label="Title" 
                 placeholder="Write your headline here..." 
                 variant="filled" 
                 size='small' 
                 color='primary' 
-                style={{ marginBottom: 16, width: 286, backgroundColor: 'ivory' }} 
+                style={{ marginBottom: 16, width: 286, backgroundColor: 'ivory' }}
+                onChange={(e) => {
+                    setTitle(e.target.value)
+                }}
             />
 
-            <TextField 
+            <TextField
+                id="review-field"
                 label="Review" 
                 variant="filled" 
                 placeholder='Write your review here...' 
                 multiline minRows={6} 
-                style={{ width: 820, backgroundColor: 'ivory' }} 
+                style={{ width: 820, backgroundColor: 'ivory' }}
+                onChange={(e) => {
+                    setBody(e.target.value)
+                }}
             />
 
             <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 1, alignItems: 'end', alignContent: 'end' }}>
                 <div>
-                <IconButton onClick={() => {
-                    console.log(coolmoviesState.loggedUser?.currentUser.name)
-                }}>
-                    <CheckIcon sx={{ color: green[500], marginRight: 0.8 }} />
-                </IconButton>
-                <IconButton onClick={() => {
-                    dispatch(coolmoviesActions.toggleNewReview(false))
-                }} >
-                    <DeleteIcon sx={{ color: red[400] }} />
-                </IconButton>
+                    <IconButton onClick={() => {
+                        console.log("Title: ", title)
+                        console.log("Body: ", body)
+
+                        const movieId = coolmoviesState.selectedMovieData ? coolmoviesState.selectedMovieData?.id : ""
+                        console.log("MovieId: ", movieId)
+
+                        const rating = star5 ? 5 : star4 ? 4 : star3 ? 3 : star2 ? 2 : 1;
+                        console.log("Rating: ", rating)
+
+                        const userId = coolmoviesState.loggedUser ? coolmoviesState.loggedUser?.currentUser.id : ""
+                        console.log("UserId: ", userId)
+
+                        const userName = coolmoviesState.loggedUser ? coolmoviesState.loggedUser?.currentUser.name : ""
+                        console.log("UserName: ", userName)
+
+
+                        const reviewData: ReviewData = {
+                            id: uuid(),
+                            title,
+                            rating,
+                            body,
+                            userByUserReviewerId: {
+                              id: userId,
+                              name: userName,
+                            },
+                            movieId,
+                        }
+                        console.log("All reivew data: ", reviewData)
+                        dispatch(coolmoviesActions.createMovieReview(reviewData))
+                        dispatch(coolmoviesActions.addReview(reviewData))
+                        dispatch(coolmoviesActions.toggleNewReview(false))
+                    }}>
+                        <CheckIcon sx={{ color: green[500], marginRight: 0.8 }} />
+                    </IconButton>
+                    <IconButton onClick={() => {
+                        dispatch(coolmoviesActions.toggleNewReview(false))
+                    }} >
+                        <DeleteIcon sx={{ color: red[400] }} />
+                    </IconButton>
                 </div>
             </Box>
         </Box>

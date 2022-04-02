@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AllMoviesData, MovieData, AllReviewsForMovieData, UserData } from '../../types';
+import { AllMoviesData, MovieData, AllReviewsForMovieData, UserData, ReviewData } from '../../types';
 
 interface CoolmoviesState {
   value: number;
   sideEffectCount: number;
   allMoviesData?: AllMoviesData;
   selectedMovieData?: MovieData;
-  reviewsForSelectedMovie?: AllReviewsForMovieData;
+  reviewsForSelectedMovie: ReviewData[];
   toggleNewReview: boolean;
   loggedUser?: UserData;
 }
@@ -15,6 +15,7 @@ const initialState: CoolmoviesState = {
   value: 0,
   sideEffectCount: 0,
   toggleNewReview: false,
+  reviewsForSelectedMovie: [],
 };
 
 export const slice = createSlice({
@@ -27,12 +28,13 @@ export const slice = createSlice({
 
     fetchLoggedUser: () => {},
 
+    createMovieReview: (state, action: PayloadAction<ReviewData>) => {},
+
     clearAll: (state) => {
       console.log("Clear all states")
       state.allMoviesData = undefined;
-      state.reviewsForSelectedMovie = undefined;
+      state.reviewsForSelectedMovie = [];
       state.selectedMovieData = undefined;
-      state.reviewsForSelectedMovie = undefined;
       state.loggedUser = undefined;
     },
 
@@ -42,27 +44,29 @@ export const slice = createSlice({
 
     loaded: (state, action: PayloadAction<{ data: AllMoviesData | AllReviewsForMovieData | UserData }>) => {
       const data = action.payload.data
+      console.log("Loaded: ", data)
 
       if ((data as AllMoviesData).allMovies) {
         state.allMoviesData = data as AllMoviesData;
-        console.log("Loaded movies", data)
       } else if ((data as AllReviewsForMovieData).allMovieReviews) {
-        state.reviewsForSelectedMovie = data as AllReviewsForMovieData 
-        console.log("Loaded reviews", data)
+        state.reviewsForSelectedMovie = (data as AllReviewsForMovieData).allMovieReviews.nodes
       } else if ((data as UserData).currentUser) {
         state.loggedUser = data as UserData
-        console.log("Loaded current user", data)
       }
     },
 
     loadError: (state) => {
-      state.allMoviesData = undefined;
-      state.reviewsForSelectedMovie = undefined;
+      // state.allMoviesData = undefined;
+      // state.reviewsForSelectedMovie = undefined;
       console.log('Error fetching data');
     },
 
     setSelectedMovie: (state, action: PayloadAction<MovieData>) => {
       state.selectedMovieData = action.payload
+    },
+
+    addReview: (state, action: PayloadAction<ReviewData>) => {
+      state.reviewsForSelectedMovie.unshift(action.payload)
     },
 
     toggleNewReview: (state, action: PayloadAction<boolean>) => {

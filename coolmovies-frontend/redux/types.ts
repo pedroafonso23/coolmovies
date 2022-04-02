@@ -22,14 +22,15 @@ export type AllMoviesData = {
 }
 
 export type ReviewData = {
-  id: string,
+  id?: string | undefined,
   title: string,
   rating: number,
   body: string,
   userByUserReviewerId: {
     id: string,
-    name: string,
-  }
+    name?: string | undefined,
+  },
+  movieId: string,
 }
 
 export type AllReviewsForMovieData = {

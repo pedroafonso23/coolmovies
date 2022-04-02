@@ -26,13 +26,14 @@ export const styles = {
     body: css({
       alignSelf: 'stretch',
       // padding: 2,
+      paddingBottom: 18,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     }),
     heading: css({ 
       marginTop: 16, 
-      fontSize: '2.75rem', 
+      // fontSize: '2.75rem', 
       textAlign: 'center' 
     }),
     subtitle: css({

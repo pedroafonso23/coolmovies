@@ -5,6 +5,7 @@ import { RootState } from '../../store';
 import { EpicDependencies } from '../../types';
 import { actions, SliceAction } from './slice';
 import { allMoviesQuery, reviewsByMovieIdQuery, loggedUserQuery } from '../../../graphql/queries'
+import { createMovieReviewMutation } from '../../../graphql/mutations';
 
 export const coolmoviesEpic: Epic = (
   action$: Observable<SliceAction['increment']>,
@@ -43,6 +44,7 @@ export const reviewsByMovieIdAsyncEpic: Epic = (
     try {
       const result = await client.query({
         query: reviewsByMovieIdQuery(action.payload),
+        fetchPolicy: 'network-only',
       });
       return actions.loaded({ data: result.data });
     } catch (err) {
@@ -61,6 +63,25 @@ export const loggedUserAsyncEpic: Epic = (
     try {
       const result = await client.query({
         query: loggedUserQuery,
+      });
+      return actions.loaded({ data: result.data });
+    } catch (err) {
+      return actions.loadError();
+    }
+  })
+)
+
+export const createMovieReviewAsyncEpic: Epic = (
+  action$: Observable<SliceAction['createMovieReview']>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies,
+) => action$.pipe(
+  filter(actions.createMovieReview.match),
+  switchMap(async (action) => {
+    try {
+      const result = await client.mutate({
+        mutation: createMovieReviewMutation(action.payload),
+        refetchQueries: 'active',
       });
       return actions.loaded({ data: result.data });
     } catch (err) {

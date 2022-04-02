@@ -5,12 +5,14 @@ import {
     coolmoviesEpic, 
     allMoviesAsyncEpic, 
     reviewsByMovieIdAsyncEpic, 
-    loggedUserAsyncEpic 
+    loggedUserAsyncEpic,
+    createMovieReviewAsyncEpic,
 } from './epics';
 
 export const coolmoviesEpics = combineEpics(
     coolmoviesEpic, 
     allMoviesAsyncEpic, 
     reviewsByMovieIdAsyncEpic, 
-    loggedUserAsyncEpic
+    loggedUserAsyncEpic,
+    createMovieReviewAsyncEpic,
 );

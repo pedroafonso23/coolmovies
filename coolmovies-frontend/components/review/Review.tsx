@@ -9,8 +9,6 @@ import { yellow } from '@mui/material/colors';
 export const Review: FC<ReviewData> = ({ title, rating, body, userByUserReviewerId: { name } }) => {
     const dispatch = useDispatch();
 
-
-
     return (
         <Box sx={{
             width: 860,
