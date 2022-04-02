@@ -1,3 +1,9 @@
+# My solution to Coolmovies challange
+
+Please, take a look at the README from */coolmoview-frontend* for an overview of my solution to this test.
+
+#
+
 - [Introduction: Coolmovies challenge](#introduction-coolmovies-challenge)
 - [Web version challenge](#web-version-challenge)
 - [Mobile version challenge](#mobile-version-challenge)
