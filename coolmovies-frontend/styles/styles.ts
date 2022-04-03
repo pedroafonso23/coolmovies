@@ -28,15 +28,25 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    background: theme.palette.neutral.main,
   }),
   heading: css({
     marginTop: 16,
     textAlign: "center",
+    color: theme.palette.primary.main,
   }),
   subtitle: css({
     fontWeight: 300,
     textAlign: "center",
     color: theme.palette.primary.main,
+  }),
+  generalText: css({
+    p: {
+      margin: "32px 456px",
+      fontWeight: 400,
+      textAlign: "justify",
+      color: theme.palette.primary.dark,
+    }
   }),
   mainControls: css({
     display: "flex",
@@ -57,6 +67,24 @@ export const styles = {
     "&:focus": {
       transform: "scale(1.14)",
     },
+  }),
+  profilePicture: css({
+    marginTop: "28x",
+    borderRadius: "50%",
+    marginBottom: "16px",
+  }),
+  linksFooter: css({
+    display: "flex",
+    a: {
+      margin: "32px 0 0 24px",
+      color: theme.palette.primary.main,
+      transition: "transform .2s",
+      "&:hover": {
+        color: theme.palette.primary.dark,
+        fontWeight: "bold",
+        transform: "scale(1.1)",
+      },
+    }
   }),
   dataInput: css({
     alignSelf: "stretch",
