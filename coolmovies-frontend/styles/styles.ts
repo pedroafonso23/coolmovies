@@ -91,3 +91,16 @@ export const styles = {
     margin: "32px 0",
   }),
 };
+
+export const reviewBoxSx = () => {
+  return {
+    width: 860,
+    padding: 2,
+    backgroundColor: "primary.main",
+    borderRadius: 4,
+    transition: "0.2s",
+    "&:hover": {
+      backgroundColor: "primary.dark",
+    },
+  };
+};
